@@ -1,0 +1,32 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.1.4/schema.json",
+	"files": {
+		"includes": [
+			"**/*.ts",
+			"!.wxt/**/*.ts"
+		]
+	},
+	"formatter": {
+		"enabled": true,
+		"useEditorconfig": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true
+		}
+	},
+	"json": {
+		"formatter": {
+			"enabled": false
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	}
+}
