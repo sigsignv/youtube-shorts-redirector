@@ -1,8 +1,8 @@
 {
-  "name": "wxt-solid-starter",
-  "description": "manifest.json description",
+  "name": "youtube-shorts-redirector",
+  "description": "A browser extension to redirect YouTube Shorts to desktop watch page.",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "wxt",
