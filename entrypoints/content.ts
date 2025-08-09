@@ -3,17 +3,27 @@ export default defineContentScript({
   allFrames: false,
   runAt: "document_start",
   main(ctx) {
-    const shortsID = getShortsID(window.location.pathname);
-    if (shortsID !== "") {
-      window.location.replace(`https://www.youtube.com/watch?v=${shortsID}`);
-    }
-
-    ctx.addEventListener(document, "yt-navigate-start", () => {
+    const redirectIfShorts = () => {
       const shortsID = getShortsID(window.location.pathname);
       if (shortsID !== "") {
         window.location.replace(`https://www.youtube.com/watch?v=${shortsID}`);
       }
-    });
+    };
+
+    /**
+     * Redirect when page loads
+     */
+    redirectIfShorts();
+
+    /**
+     * Redirect when user clicks a link
+     */
+    ctx.addEventListener(document, "yt-navigate-start", redirectIfShorts);
+
+    /**
+     * Redirect when page URL changes
+     */
+    ctx.addEventListener(document, "yt-page-data-updated", redirectIfShorts);
   },
 });
 
