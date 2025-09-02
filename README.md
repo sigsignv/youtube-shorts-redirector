@@ -1,4 +1,4 @@
-# YouTube Shorts Redirector
+# YouTube Shorts Simple Redirector
 
 A browser extension that redirects YouTube Shorts to the regular watch page.
 
