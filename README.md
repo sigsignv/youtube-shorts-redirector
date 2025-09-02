@@ -5,7 +5,7 @@ A browser extension that redirects YouTube Shorts to the regular watch page.
 ## Build
 
 ```sh
-$ npm ci
+$ npm install
 $ npm run zip
 ```
 
