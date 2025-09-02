@@ -1,6 +1,6 @@
 {
   "name": "youtube-shorts-redirector",
-  "description": "A browser extension that redirects YouTube Shorts to the regular watch page",
+  "description": "Redirect YouTube Shorts to the regular watch page.",
   "private": true,
   "version": "0.1.0",
   "type": "module",
