@@ -32,6 +32,6 @@ function getShortsId(pathname: string) {
 function redirectIfShorts() {
   const shortsId = getShortsId(window.location.pathname);
   if (shortsId !== "") {
-    window.location.replace(`https://www.youtube.com/watch?v=${shortsId}`);
+    window.location.replace(`/watch?v=${shortsId}`);
   }
 }
