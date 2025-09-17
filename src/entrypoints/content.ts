@@ -30,8 +30,8 @@ function getShortsId(pathname: string) {
 }
 
 function redirectIfShorts() {
-  const shortsId = getShortsId(window.location.pathname);
+  const shortsId = getShortsId(location.pathname);
   if (shortsId !== "") {
-    window.location.replace(`https://www.youtube.com/watch?v=${shortsId}`);
+    location.replace(`/watch?v=${shortsId}`);
   }
 }
