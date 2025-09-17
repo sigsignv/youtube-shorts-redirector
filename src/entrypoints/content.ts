@@ -29,8 +29,8 @@ export default defineContentScript({
   },
 });
 
-function getShortsId(pathname: string) {
-  const segments = pathname.split("/");
+function extractShortsId() {
+  const segments = location.pathname.split("/");
   if (segments.length !== 3 || segments[1] !== "shorts") {
     return "";
   }
@@ -38,7 +38,7 @@ function getShortsId(pathname: string) {
 }
 
 function redirectIfOnShorts({ phase }: RedirectOptions) {
-  const shortsId = getShortsId(location.pathname);
+  const shortsId = extractShortsId();
   if (shortsId !== "") {
     console.debug(`Redirect triggered at ${phase}`);
     location.replace(`/watch?v=${shortsId}`);
