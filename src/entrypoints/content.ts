@@ -8,24 +8,23 @@ export default defineContentScript({
   allFrames: false,
 
   main(ctx) {
-    /**
-     * Redirect on initial page load
-     */
     redirectIfOnShorts({ phase: "document_start" });
 
-    /**
-     * Redirect on YouTube internal navigation
-     */
-    ctx.addEventListener(document, "yt-navigate-start", () =>
-      redirectIfOnShorts({ phase: "yt-navigate-start" }),
-    );
-
-    /**
-     * Redirect on Shorts ID is ready
-     */
-    ctx.addEventListener(document, "yt-page-data-updated", () =>
-      redirectIfOnShorts({ phase: "yt-page-data-updated" }),
-    );
+    const events = [
+      /**
+       * YouTube SPA navigation start event. Fires on internal navigations.
+       */
+      "yt-navigate-start",
+      /**
+       * Handle direct visits to the /shorts page.
+       */
+      "yt-page-data-updated",
+    ];
+    for (const event of events) {
+      ctx.addEventListener(document, event, () => {
+        redirectIfOnShorts({ phase: event });
+      });
+    }
   },
 });
 
