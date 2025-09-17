@@ -1,3 +1,7 @@
+type RedirectOptions = {
+  phase: string;
+};
+
 export default defineContentScript({
   matches: ["https://www.youtube.com/*"],
   runAt: "document_start",
@@ -7,17 +11,21 @@ export default defineContentScript({
     /**
      * Redirect on initial page load
      */
-    redirectIfShorts();
+    redirectIfOnShorts({ phase: "document_start" });
 
     /**
      * Redirect on YouTube internal navigation
      */
-    ctx.addEventListener(document, "yt-navigate-start", redirectIfShorts);
+    ctx.addEventListener(document, "yt-navigate-start", () =>
+      redirectIfOnShorts({ phase: "yt-navigate-start" }),
+    );
 
     /**
      * Redirect on Shorts ID is ready
      */
-    ctx.addEventListener(document, "yt-page-data-updated", redirectIfShorts);
+    ctx.addEventListener(document, "yt-page-data-updated", () =>
+      redirectIfOnShorts({ phase: "yt-page-data-updated" }),
+    );
   },
 });
 
@@ -29,9 +37,10 @@ function getShortsId(pathname: string) {
   return segments[2];
 }
 
-function redirectIfShorts() {
+function redirectIfOnShorts({ phase }: RedirectOptions) {
   const shortsId = getShortsId(location.pathname);
   if (shortsId !== "") {
+    console.debug(`Redirect triggered at ${phase}`);
     location.replace(`/watch?v=${shortsId}`);
   }
 }
