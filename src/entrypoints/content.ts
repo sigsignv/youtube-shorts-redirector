@@ -1,37 +1,45 @@
+type RedirectOptions = {
+  phase: string;
+};
+
 export default defineContentScript({
   matches: ["https://www.youtube.com/*"],
   runAt: "document_start",
   allFrames: false,
 
   main(ctx) {
-    /**
-     * Redirect on initial page load
-     */
-    redirectIfShorts();
+    redirectIfOnShorts({ phase: "document_start" });
 
-    /**
-     * Redirect on YouTube internal navigation
-     */
-    ctx.addEventListener(document, "yt-navigate-start", redirectIfShorts);
-
-    /**
-     * Redirect on Shorts ID is ready
-     */
-    ctx.addEventListener(document, "yt-page-data-updated", redirectIfShorts);
+    const events = [
+      /**
+       * YouTube SPA navigation start event. Fires on internal navigations.
+       */
+      "yt-navigate-start",
+      /**
+       * Handle direct visits to the /shorts page.
+       */
+      "yt-page-data-updated",
+    ];
+    for (const event of events) {
+      ctx.addEventListener(document, event, () => {
+        redirectIfOnShorts({ phase: event });
+      });
+    }
   },
 });
 
-function getShortsId(pathname: string) {
-  const segments = pathname.split("/");
+function extractShortsId() {
+  const segments = location.pathname.split("/");
   if (segments.length !== 3 || segments[1] !== "shorts") {
     return "";
   }
   return segments[2];
 }
 
-function redirectIfShorts() {
-  const shortsId = getShortsId(location.pathname);
+function redirectIfOnShorts({ phase }: RedirectOptions) {
+  const shortsId = extractShortsId();
   if (shortsId !== "") {
+    console.debug(`Redirect triggered at ${phase}`);
     location.replace(`/watch?v=${shortsId}`);
   }
 }
