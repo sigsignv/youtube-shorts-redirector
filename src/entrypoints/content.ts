@@ -1,3 +1,5 @@
+import { defineContentScript } from "#imports";
+
 type RedirectOptions = {
   phase: string;
 };
